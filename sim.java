@@ -41,7 +41,6 @@ public class sim{
         //calc bayes rule for given theta and associated probability
         double pDTheta = (Math.pow(theta,java.lang.Math.log( data[5])))*(Math.pow((1-theta),java.lang.Math.log((size-data[5])))); 
         double pThetaD =  pDTheta* pTheta; 
-        if(size == 2000){
         return pThetaD; 
     }
     private double bayseianInference(int[]data , int size,HashMap<String,String> scenario ){
