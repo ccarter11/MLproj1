@@ -1,6 +1,6 @@
 import java.util.Random;
-
-public class dice{
+ 
+ public class dice{
     Random roll = new Random();
     int[] rollTracker = new int[6];
 
