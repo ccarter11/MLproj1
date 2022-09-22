@@ -1,11 +1,12 @@
 import java.util.Arrays;
-import java.io.File;  // Import the File class
-import java.io.FileWriter;   // Import the FileWriter class
-import java.io.IOException;  // Import the IOException class to handle errors
+import java.io.File;  
+import java.io.FileWriter;   
+import java.io.IOException;  
 import java.util.HashMap;
 import java.util.Random;
 import java.lang.Math;
 import java.util.HashMap; 
+
 public class sim{       
     private void CreateFile() {
         try {
@@ -49,6 +50,7 @@ public class sim{
         double currResult;
         double bestTheta = 0;
         double highestpT = 0; 
+
         for(String key : scenario.keySet()){ 
             double theta = Double.parseDouble(key);
             double pTheta = Double.parseDouble(scenario.get(key));
@@ -79,6 +81,7 @@ public class sim{
         scenario4.put(".6",".28");
         scenario4.put(".16666",".2");
         int[] dataCount = {20 , 200 , 2000};
+
         for(int num:dataCount){ //for each data set size
             int[] data = test.roll(num); //generate data 
             simRecords= simRecords + "\nData set " +String.valueOf(num)+": " + " one: " + String.valueOf(data[0]) + ", two: "+ String.valueOf(data[1]) + ", three: " + String.valueOf(data[2]) + ", four: " + String.valueOf(data[3])+ ", five: " + String.valueOf(data[4]) + ", six: " +String.valueOf(data[5])+"\n";    
