@@ -1,12 +1,9 @@
-import java.util.Arrays;
+import java.util.*;
 import java.io.File;  
 import java.io.FileWriter;   
-import java.io.IOException;  
-import java.util.HashMap;
-import java.util.Random;
+import java.io.IOException;
 import java.lang.Math;
-import java.util.HashMap; 
-
+import java.math.BigDecimal;
 public class sim{       
     private void CreateFile() {
         try {
@@ -38,24 +35,28 @@ public class sim{
         }
         return thetas;
     }
-    private double BayesRule(int[] data, int size, double theta, double pTheta){
+    private BigDecimal BayesRule(int[] data, int size, double theta, double pTheta){
         //calc bayes rule for given theta and associated probability
-        double pDTheta = (Math.pow(theta,java.lang.Math.log( data[5])))*(Math.pow((1-theta),java.lang.Math.log((size-data[5])))); 
-        double pThetaD =  pDTheta* pTheta; 
+        BigDecimal t = BigDecimal.valueOf(theta); 
+        BigDecimal p = BigDecimal.valueOf(pTheta);
+        BigDecimal tcomp = (BigDecimal.ONE).subtract(t) ; 
+        BigDecimal pDTheta = (t.pow(data[5])).multiply((tcomp.pow(size-data[5])));
+        //double pDTheta = (Math.log(theta)*data[5])+(Math.log((1-theta))*(size-data[5])); 
+        BigDecimal pThetaD =  pDTheta.multiply(p); 
         return pThetaD; 
     }
     private double bayseianInference(int[]data , int size,HashMap<String,String> scenario ){
         //find max pThetaD from given thetas 
         sim mySim = new sim();
-        double currResult;
+        BigDecimal currResult;
         double bestTheta = 0;
-        double highestpT = 0; 
-
+        BigDecimal highestpT = new BigDecimal("0.0");
         for(String key : scenario.keySet()){ 
             double theta = Double.parseDouble(key);
             double pTheta = Double.parseDouble(scenario.get(key));
             currResult= mySim.BayesRule(data,size,theta, pTheta);
-            if(currResult>highestpT){
+            // if(currResult>highestpT){
+                if (currResult.compareTo(highestpT) > 0){
                 highestpT = currResult; 
                 bestTheta = theta; 
             }
@@ -81,7 +82,6 @@ public class sim{
         scenario4.put(".6",".28");
         scenario4.put(".16666",".2");
         int[] dataCount = {20 , 200 , 2000};
-
         for(int num:dataCount){ //for each data set size
             int[] data = test.roll(num); //generate data 
             simRecords= simRecords + "\nData set " +String.valueOf(num)+": " + " one: " + String.valueOf(data[0]) + ", two: "+ String.valueOf(data[1]) + ", three: " + String.valueOf(data[2]) + ", four: " + String.valueOf(data[3])+ ", five: " + String.valueOf(data[4]) + ", six: " +String.valueOf(data[5])+"\n";    
